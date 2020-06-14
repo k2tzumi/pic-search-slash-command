@@ -1,4 +1,3 @@
-import { OAuth2Handler } from "./OAuth2Handler";
 import { Commands } from "./Commands";
 import { CustomImageSearchClient } from "./CustomImageSearchClient";
 import { SlackWebhooks } from "./SlackWebhooks";
@@ -10,41 +9,6 @@ type HtmlOutput = GoogleAppsScript.HTML.HtmlOutput;
 
 const properties = PropertiesService.getScriptProperties();
 const VERIFICATION_TOKEN: string = properties.getProperty("VERIFICATION_TOKEN");
-
-const CLIENT_ID: string = properties.getProperty("CLIENT_ID");
-const CLIENT_SECRET: string = properties.getProperty("CLIENT_SECRET");
-const handler = new OAuth2Handler(CLIENT_ID, CLIENT_SECRET, PropertiesService.getUserProperties(), 'handleCallback')
-
-/**
- * Authorizes and makes a request to the Slack API.
- */
-function doGet(request): GoogleAppsScript.HTML.HtmlOutput {
-  // Clear authentication by accessing with the get parameter `?logout=true`
-  if (request.parameter.logout) {
-    handler.clearService();
-    const template = HtmlService.createTemplate('Logout<br /><a href="<?= requestUrl ?>" target="_blank">refresh</a>.');
-    template.requestUrl = getRequestURL();
-    return HtmlService.createHtmlOutput(template.evaluate());
-  }
-
-  if (handler.verifyAccessToken()) {
-    return HtmlService.createHtmlOutput('OK');
-  } else {
-    const template = HtmlService.createTemplate('RedirectUri:<?= redirectUrl ?> <br /><a href="<?= authorizationUrl ?>" target="_blank">Authorize</a>.');
-    template.authorizationUrl = handler.authorizationUrl;
-    template.redirectUrl = handler.redirectUri;
-    return HtmlService.createHtmlOutput(template.evaluate());
-  }
-}
-
-function getRequestURL() {
-  const serviceURL = ScriptApp.getService().getUrl();
-  return serviceURL.replace('/dev', '/exec');
-}
-
-function handleCallback(request): HtmlOutput {
-  return handler.authCallback(request);
-}
 
 const OVERUSE_MESSAGE = properties.getProperty("OVERUSE_MESSAGE") || ":anger: Search too much..";
 

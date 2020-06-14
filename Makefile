@@ -9,7 +9,7 @@ help:
 	clasp create --title pic-search-bot --type webapp --rootDir ./src
 	clasp setting fileExtension ts
 	# clasp setting filePushOrder
-	sed -i -e 's/}/,"filePushOrder":["src\/OAuth2Handler.ts","src\/CustomImageSearchClient.ts","src\/SlackWebhooks.ts","src\/CounterCache.ts"]}/' .clasp.json
+	sed -i -e 's/}/,"filePushOrder":["src\/CustomImageSearchClient.ts","src\/SlackWebhooks.ts","src\/CounterCache.ts"]}/' .clasp.json
 
 .PHONY: login
 login: ## Google login
