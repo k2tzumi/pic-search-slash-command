@@ -5,7 +5,7 @@ What is this?
 
  This bot executes the slack slash command to search for images.  
  This bot runs as a web app within a Google app script.  
- You can make this bot work by registering it as an endpoint for [Slack API](https://api.slack.com/apps) event subscriptions.
+You can make this bot work by registering it as a request URL for the [Slack API](https://api.slack.com/apps) slash command.
  
 REQUIREMENTS
 --------------------
