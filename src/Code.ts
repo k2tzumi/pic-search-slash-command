@@ -59,8 +59,7 @@ function doPost(e): TextOutput {
   var commands: Commands = e.parameter;
   var response = {
     "response_type": null,
-    "text": null,
-    "block": null
+    "text": null
   };
 
   try {

@@ -8,8 +8,8 @@ help:
 	make login
 	clasp create --title pic-search-bot --type webapp --rootDir ./src
 	clasp setting fileExtension ts
-	# clasp setting filePushOrder Code.ts
-	sed -i -e 's/}/,"filePushOrder":["src/OAuth2Handler.ts","src/CustomImageSearchClient.ts","src/"src/SlackWebhooks.ts","src/CounterCache.ts"]}/' .clasp.json
+	# clasp setting filePushOrder
+	sed -i -e 's/}/,"filePushOrder":["src\/OAuth2Handler.ts","src\/CustomImageSearchClient.ts","src\/SlackWebhooks.ts","src\/CounterCache.ts"]}/' .clasp.json
 
 .PHONY: login
 login: ## Google login
