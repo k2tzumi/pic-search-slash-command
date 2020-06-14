@@ -53,8 +53,11 @@ In order to run the application and change its behavior, you need to set the fol
 File > Project properties > Scirpt properties > Add row  
 Setting Property & Value
 
-### Settings Slash Commands
+### Settings Slash Commands & Slack APP install
 
 * Create New Command  
 Setting Request URL.
 ex) https://script.google.com/macros/s/miserarenaiyo/exec  
+
+* Slack APP install
+Settings > Install App  
