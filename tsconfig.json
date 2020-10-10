@@ -4,7 +4,8 @@
         "lib": [
             "esnext"
         ],
-        "experimentalDecorators": true
+        "experimentalDecorators": true,
+        "esModuleInterop": true,
     },
     "include": [
         "src/**/*",

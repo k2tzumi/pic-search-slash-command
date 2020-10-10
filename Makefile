@@ -9,7 +9,7 @@ help:
 	clasp create --title pic-search-bot --type webapp --rootDir ./src
 	clasp setting fileExtension ts
 	# clasp setting filePushOrder
-	sed -i -e 's/}/,"filePushOrder":["src\/CustomImageSearchClient.ts","src\/SlackWebhooks.ts","src\/CounterCache.ts"]}/' .clasp.json
+	sed -i -e 's/}/,"filePushOrder":["src\/SlackBaseHandler.ts","src\/BaseError.ts","src\/JobBroker.ts","src\/CustomImageSearchClient.ts","src\/SlackWebhooks.ts","src\/CounterCache.ts"]}/' .clasp.json
 
 .PHONY: login
 login: ## Google login
@@ -18,8 +18,8 @@ login:
 
 .PHONY: push
 push: ## Push Google apps scripts
-push: .clasp.json
-	clasp push
+push: .clasp.json lint
+	clasp push -f
 
 .PHONY: deploy
 deploy: ## Deploy Google apps scripts
@@ -44,7 +44,12 @@ pull: .clasp.json
 .PHONY: lint
 lint: ## Run tslint
 lint:
-	tslint --fix src/*.ts
+	npm run lint
+
+.PHONY: test
+test: ## Run jest
+test:
+	npm test
 
 .PHONY: undeploy
 undeploy: ## all undeploy Google apps scripts
