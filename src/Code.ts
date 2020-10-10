@@ -91,6 +91,7 @@ const executeSlashCommand = (
     }
     new JobBroker().enqueue(asyncLogging, {
       message: e.message,
+      commands: JSON.stringify(commands),
       stack: e.stack
     });
   }
@@ -103,14 +104,14 @@ const CUSTOM_SEARCH_ENGINE_ID = properties.getProperty(
   "CUSTOM_SEARCH_ENGINE_ID"
 );
 
-function executeSearch(commands: Commands): string[] {
+function executeSearch({ text } = {} as Commands): string[] {
   const cient = new CustomImageSearchClient(
     GOOGLE_API_KEY,
     CUSTOM_SEARCH_ENGINE_ID
   );
   const counter: CounterCache = new CounterCache();
 
-  return cient.search(commands.text, counter.increment(commands.text));
+  return cient.search(text, counter.increment(text));
 }
 
 function pickupImage(images: string[]): string {
