@@ -21,6 +21,7 @@
   "devDependencies": {
     "@google/clasp": "^2.3.0",
     "@types/jest": "^27.4.0",
+    "apps-script-jobqueue": "github:k2tzumi/apps-script-jobqueue",
     "jest": "^27.4.7",
     "prettier": "^2.2.1",
     "ts-jest": "^27.1.2",
