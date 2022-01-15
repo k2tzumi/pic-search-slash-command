@@ -20,7 +20,7 @@ class CustomImageSearchClient {
   public search(keyword: string, repeate: number = 1): string[] {
     const start: number = CustomImageSearchClient.NUM * (repeate - 1) + 1;
     const options = {
-      muteHttpExceptions: true
+      muteHttpExceptions: true,
     };
 
     let response;
@@ -35,7 +35,7 @@ class CustomImageSearchClient {
     switch (response.getResponseCode()) {
       case 200:
         const items = JSON.parse(response.getContentText()).items;
-        return items.map(item => {
+        return items.map((item) => {
           return item.link;
         });
       default:

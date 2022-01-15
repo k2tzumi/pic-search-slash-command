@@ -2,7 +2,6 @@ import { Slack } from "./slack/types/index.d";
 import { SlackHandler } from "./SlackHandler";
 import { SlashCommandFunctionResponse } from "./SlashCommandHandler";
 import { DuplicateEventError } from "./CallbackEventHandler";
-import { JobBroker } from "./JobBroker";
 import { CustomImageSearchClient } from "./CustomImageSearchClient";
 import { SlackWebhooks } from "./SlackWebhooks";
 import { CounterCache } from "./CounterCache";
@@ -12,10 +11,9 @@ type TextOutput = GoogleAppsScript.Content.TextOutput;
 type Commands = Slack.SlashCommand.Commands;
 
 const asyncLogging = (): void => {
-  const jobBroker: JobBroker = new JobBroker();
-  jobBroker.consumeJob((parameter: {}) => {
+  JobBroker.consumeAsyncJob((parameter: Record<string, any>) => {
     console.info(JSON.stringify(parameter));
-  });
+  }, "asyncLogging");
 };
 
 const properties = PropertiesService.getScriptProperties();
@@ -39,9 +37,9 @@ function doPost(e): TextOutput {
     if (exception instanceof DuplicateEventError) {
       return ContentService.createTextOutput();
     } else {
-      new JobBroker().enqueue(asyncLogging, {
+      JobBroker.enqueueAsyncJob(asyncLogging, {
         message: exception.message,
-        stack: exception.stack
+        stack: exception.stack,
       });
       throw exception;
     }
@@ -53,7 +51,8 @@ function doPost(e): TextOutput {
 const executeSlashCommand = (
   commands: Commands
 ): SlashCommandFunctionResponse | null => {
-  const response: SlashCommandFunctionResponse = {} as SlashCommandFunctionResponse;
+  const response: SlashCommandFunctionResponse =
+    {} as SlashCommandFunctionResponse;
 
   try {
     switch (commands.text) {
@@ -67,12 +66,12 @@ const executeSlashCommand = (
         const webhook = new SlackWebhooks(commands.response_url);
         response.response_type = "in_channel";
         response.text = kskImages.pop();
-        kskImages.slice(0, 5).forEach(image => {
+        kskImages.slice(0, 5).forEach((image) => {
           webhook.invoke({
             username: "pic-search-bot",
             icon_emoji: "frame_with_picture",
             response_type: "in_channel",
-            text: image
+            text: image,
           });
         });
         break;
@@ -89,10 +88,10 @@ const executeSlashCommand = (
         response.text = OVERUSE_MESSAGE;
       }
     }
-    new JobBroker().enqueue(asyncLogging, {
+    JobBroker.enqueueAsyncJob(asyncLogging, {
       message: e.message,
       commands: JSON.stringify(commands),
-      stack: e.stack
+      stack: e.stack,
     });
   }
 

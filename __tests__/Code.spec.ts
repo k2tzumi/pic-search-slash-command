@@ -11,7 +11,7 @@ const properites = {
   getKeys: jest.fn(),
   getProperties: jest.fn(),
   setProperties: jest.fn(),
-  setProperty: jest.fn()
+  setProperty: jest.fn(),
 };
 
 PropertiesService.getScriptProperties = jest.fn(() => properites);
@@ -27,14 +27,14 @@ const response = {
   }),
   getBlob: jest.fn(() => {
     return "";
-  })
+  }),
 };
 // UrlFetchApp.fetch = jest.fn(() => response);
 
 const fileIteraater = {
   hasNext: jest.fn(() => {
     return false;
-  })
+  }),
 };
 
 import { executeSlashCommand } from "../src/Code";
@@ -55,12 +55,12 @@ describe("Code", () => {
         command: "/weather",
         text: "94070",
         response_url: "https://hooks.slack.com/commands/1234/5678",
-        trigger_id: "13345224609.738474920.8088930838d88f008e0"
+        trigger_id: "13345224609.738474920.8088930838d88f008e0",
       };
 
       const expected = {
         response_type: "in_channel",
-        text: ":cold_sweat: Search failed."
+        text: ":cold_sweat: Search failed.",
       };
 
       const actual = executeSlashCommand(commands);
